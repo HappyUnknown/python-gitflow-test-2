@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
+    <title>Declined</title>
+</head>
+<body>
+    <h1>You have declined to save your data.</h1>
+        <div class="content">
+            <form method="POST">
+                <p>If you want to remove all your stored data press <b>Delete</b> button.</p>
+                <p>Or if you want to change your choice press <b>Accept</b> button</p>
+                <p><button type="delete" name="action" value="delete">Delete</button></p>
+                <p><button type="accept" name="action" value="accept">Accept</button></p>
+            </form>
+    </div>
+</body>
+</html>

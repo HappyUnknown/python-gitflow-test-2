@@ -6,7 +6,8 @@ name: push-to-master
 on:
   push:
     branches:
-      - main
+      - 'master'
+      - 'main'
 
 jobs:
   build:

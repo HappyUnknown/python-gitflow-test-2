@@ -1,0 +1,280 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MongoDB Flask App - OpenAPI 3.0",
+    "description": "",
+    "version": "1.0.1"
+  },
+  "externalDocs": {
+    "description": "Github Repository",
+    "url": "https://github.com/CapybaraDevOps/flask-repo"
+  },
+  "servers": [
+    {
+      "url": "http://www.capybara.pp.ua/",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost/",
+      "description": "Localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Index",
+      "description": "Index route endpoints"
+    },
+    {
+      "name": "Form",
+      "description": "Form route endpoints"
+    },
+    {
+      "name": "Declined",
+      "description": "Declined route endpoints"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Index"
+        ],
+        "summary": "Gets index page",
+        "operationId": "getIndexPage",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Index"
+        ],
+        "summary": "Adds or updates client in the database",
+        "description": "Add or update client in the database (yes, no, update, delete)",
+        "operationId": "placeOrder",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "action"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "yes",
+                      "no",
+                      "update",
+                      "delete"
+                    ],
+                    "default": "yes"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "302": {
+            "description": "Successful operation with redirect"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/{id}/delete": {
+      "post": {
+        "tags": [
+          "Index"
+        ],
+        "summary": "Deletes the client from the database",
+        "description": "Delete the client from the database",
+        "operationId": "deleteClient",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ObjectId of the client that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "302": {
+            "description": "Successful operation with redirect"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/form": {
+      "get": {
+        "tags": [
+          "Form"
+        ],
+        "summary": "Gets form page",
+        "operationId": "getFormPage",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Form"
+        ],
+        "summary": "Adds client's data to the database",
+        "description": "Add client's data to the database",
+        "operationId": "addClientData",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "default": "Test"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/declined": {
+      "get": {
+        "tags": [
+          "Declined"
+        ],
+        "summary": "Gets Declined page",
+        "operationId": "getDeclinedPage",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Declined"
+        ],
+        "summary": "Deletes or stores client's data in declined page",
+        "description": "Delete or store client's data in declined page (accept, delete)",
+        "operationId": "addOrRemoveData",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "action"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "accept",
+                      "delete"
+                    ],
+                    "default": "accept"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "302": {
+            "description": "Successful operation with redirect"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Client": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "<Insert your value here or drop this parameter from request>"
+          },
+          "ip": {
+            "type": "string",
+            "example": "127.0.0.1"
+          },
+          "status": {
+            "type": "string",
+            "example": "accepted"
+          },
+          "ip_hash": {
+            "type": "string",
+            "example": "12ca17b49af2289436f303e0166030a21e525d266e209267433801a8fd4071a0"
+          },
+          "data": {
+            "type": "string",
+            "example": "test"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Client": {
+        "description": "Client object that needs to be added to the database",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Client"
+            }
+          }
+        }
+      }
+    }
+  }
+}

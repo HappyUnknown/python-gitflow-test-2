@@ -1,12 +1,40 @@
 from flask import Flask, render_template, url_for, request, redirect
 from pymongo import MongoClient, ReturnDocument
 from bson.objectid import ObjectId
+from flask_swagger_ui import get_swaggerui_blueprint
+from werkzeug.middleware.proxy_fix import ProxyFix
 import hashlib
+import os
 
 ############## Initialization ##############
 app = Flask(__name__)
-client = MongoClient("mongodb:27017")
-#client = MongoClient('localhost', 27017)
+
+#Map variables
+for variable, value in os.environ.items():
+    if variable.startswith("MONGO_"):
+        env_name = variable.split("MONGO_")[1]
+        app.config[env_name] = value
+        print(env_name)
+
+#Old fall-back for AWS without auth
+#client = MongoClient("mongodb:27017")
+
+#Connect to Mongo
+client = MongoClient('mongodb', username=app.config['USER'], password=app.config['PASSWORD'], authSource='flask_database', authMechanism='SCRAM-SHA-256')
+
+############## Swagger ##############
+SWAGGER_URL = '/docs'  # URL route for Swagger UI
+API_URL = '/static/swagger.json'  # Our API url (local resource)
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={  # Swagger UI config overrides
+        'app_name': "MongoDB Flask App"
+    },
+)
+app.register_blueprint(swaggerui_blueprint)
+
 
 # Mongodb database
 db = client.flask_database
@@ -25,6 +53,7 @@ clients = db.clients
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+
     # Get client's IP addr
     client_ip = request.remote_addr
     ip_hash = get_hash(client_ip)
@@ -137,5 +166,8 @@ def get_next_client_id():
 
 # Run web-server
 if __name__ == '__main__':
+    app.wsgi_app = ProxyFix(
+       app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+    )
     app.run(host='0.0.0.0', port=5050)
 

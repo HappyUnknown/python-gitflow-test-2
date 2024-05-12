@@ -3,24 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MongDB Flask App</title>
+    <title>MongoDB Flask App</title>
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh;
+        }
+
+
+        form {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        b {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="content">
         <form method="POST">
-            {% if not client_data %}
             <h1>Do you allow us to save your data?</h1>
-            <p><button type="yes" name="action" value="yes">Yes</button></p>
-            <p><button type="no" name="action" value="no">No</button></p>
-            
-            {% else %}
-            <p>Your record is already exist: <b>{{ client_data }}</b></p>
-            <p>Your can update your data or delete record </p>
-            <p><button type="update" name="action" value="update">Update</button></p>
-            <p><button type="delete" name="action" value="delete">Delete</button></p>
-            
-            {% endif %}
+            <button type="yes" name="action" value="yes">Yes</button>
+            <button type="no" name="action" value="no">No</button>
         </form>
     </div>
 </body>

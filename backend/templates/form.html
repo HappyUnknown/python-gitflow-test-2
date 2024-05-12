@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MongDB Flask App</title>
+    <title>MongoDB Flask App</title>
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
     <!-- <link rel="stylesheet" href="static/style.css"/> -->
 </head>
 <body>
-    <h1>MongoDB Flask App</h1>
+    <h1>Your IP address is: {{ client_ip }}</h1>
     <div class="content">
-        <p><b>Your IP is: {{ client_ip }}</b></p>
+        <!-- <p><b>Your IP is: {{ client_ip }}</b></p> -->
         <form method="POST">
             <p>
-                <label for="data"><b>Please write some data</b></label>
+                <label for="data"><b>Append new data</b></label>
                 <input type="text" name="data" placeholder="Enter some data">
-                <button type="submit" name="action" value="submit">Submit</button>
+                <p><button type="submit" name="action" value="submit">Submit</button></p>
             </p>
             <!-- <p>
                 {% if client_data %}
@@ -43,10 +43,9 @@
         <!-- Delete a client document form the collection -->
         <form method="POST"
             action="{{ url_for('delete', id=client['_id']) }}">
-        <input
-            type="submit"
-            value="delete client"
-            onclick="return confirm('Are you sure you want to delete this entry?')" />
+        <button
+            type="submit" 
+            onclick="return confirm('Are you sure you want to delete this entry?')" >Delete client </button>
         </form>
     </div>
     {% endfor %}

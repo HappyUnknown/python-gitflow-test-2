@@ -1,9 +1,12 @@
 # Using multiple Python versions
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: tesing-git-action
+name: push-to-master
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:

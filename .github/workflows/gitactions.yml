@@ -39,5 +39,5 @@ jobs:
 
       - name: Run tests
         # # ModuleNotFoundError: No module named 'boto3'
-        run: sudo apt-get install boto3
+        run: sudo pip install boto3
         run: python get_cert.py

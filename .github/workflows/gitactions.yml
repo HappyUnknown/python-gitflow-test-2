@@ -38,4 +38,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Run tests
+        # # ModuleNotFoundError: No module named 'boto3'
+        run: sudo apt-get install boto3
         run: python get_cert.py

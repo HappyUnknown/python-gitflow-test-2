@@ -39,3 +39,7 @@ jobs:
 
       - name: Run tests
         run: git clone https://github.com/CapybaraDevOps/flask-repo
+        # # ModuleNotFoundError: No module named 'boto3'
+        run: if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        run: pip install -e .
+        run: python flask-repo/get_cert.py

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card-wrapper">
+
+        <div class="card">
+
+            <h1 class="center blackfont">Type information</h1>
+
+            <form name="update_data">
+
+                <label for="name">Name</label>
+                <input type="text" name="name" class="field" required>
+
+                <label for="data">Message</label>
+                <input type="text" name="data" class="field" required>
+                <div class="center">
+                    <input type="submit" value="Submit" class="btn">
+                    <a href="/client/dashboard" class="btn btn--secondary">Dashboard</a>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <!-- <h1 class="center">Dashboard</h1> -->
+    
+    <div class="field">
+        <h4 class="center"><strong>Hello! You declined Privacy Policy Agreement.<br>
+            Fortunately for you, Privacy Policy Agreement can be accepted.<br>
+            Or you could delete all your data from database.
+        </strong></h4>
+        <div class="center">
+            <div class="card-wrapper">
+                <div class="card">
+                    <h2 class="center">Accept Policy Agreements or delete your data</h1>
+                    <div class="center">
+                        <a href="/client/change_policy" class="btn">Accept</a>
+                        <a href="{{ url_for('client_delete', id=session['client']['_id']) }}" 
+                            class="btn btn--attention" 
+                            onclick="return confirm('Are you sure you want to delete data?');">
+                            Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="card .card-wrapper">
+
+        <h2>Your Info</h2>
+        <p>
+            <div><strong>ID:</strong>        {{ session['client']['_id'] }}</div>
+            <div><strong>Status:</strong>     {{ session['client']['status'] }}</div>
+            <div><strong>IP_Hash:</strong>   {{ session['client']['ip_hash'] }}</div>
+        </p>
+    </div>
+
+
+
+       <!--  <div class="card">
+            <h1 class="center">Delete stored data</h1>
+            <div class="center">
+                <a href="{{ url_for('client_delete', id=session['client']['_id']) }}" 
+                    class="btn btn--attention" 
+                    onclick="return confirm('Are you sure you want to delete data?');">
+                    Delete</a>
+            </div>
+        </div>
+    </div>
+ -->
+{% endblock %}

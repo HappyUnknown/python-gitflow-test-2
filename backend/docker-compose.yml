@@ -1,0 +1,72 @@
+version: '3'
+services:
+
+  web:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/tmp/nginx.conf
+      - ./aws_cert.py:/aws_cert.py
+      - ./aws_key.py:/aws_key.py
+      - ./test_cert:/etc/letsencrypt:ro
+      - /tmp/acme_challenge:/tmp/acme_challenge
+    environment: 
+      - FLASK_SERVER_ADDR=flask:5050
+      - DOLLAR=$$  
+    command: /bin/bash -c "envsubst < /tmp/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'" 
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - frontnet
+    depends_on:
+      - flask
+
+  mongodb:
+    build: ./mongodb
+    container_name: mongodb
+    restart: always
+    expose:
+     - 27017
+    networks:
+      - backnet
+    #mount volume to our file system
+    volumes:
+      - ./data:/data/db
+      - ./backend/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    env_file: [.env-mongo, .env] 
+
+  redis:
+    image: 'redis:latest'
+    container_name: redis
+    networks:
+      - backnet
+    ports:
+     - 6379:6379
+  
+  flask:
+    # path to  Dockerfile
+    build: ./backend
+    # name of the container
+    container_name: backend-flask
+    # restart the service 
+    restart: on-failure
+    # mount volume for our Flask app
+    stop_signal: SIGINT
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      -  mongodb
+      -  redis
+    # port mapping
+    networks:
+      - backnet
+      - frontnet
+    expose:
+      - 5050
+    env_file: .env
+  
+networks:
+    backnet:
+    frontnet:
+volumes:
+   data:

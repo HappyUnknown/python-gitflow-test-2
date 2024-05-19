@@ -1,0 +1,6 @@
+Flask
+pymongo
+flask_swagger_ui
+python-dotenv
+passlib
+redis

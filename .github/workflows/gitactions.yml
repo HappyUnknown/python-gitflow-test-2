@@ -36,9 +36,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Run tests
-        run: git clone https://github.com/CapybaraDevOps/flask-repo
-        # # ModuleNotFoundError: No module named 'boto3'
-        run: if [ -f flask-repo/backend/requirements.txt ]; then pip install -r flask-repo/backend/requirements.txt; fi
-        run: python flask-repo/get_cert.py
+      # You can test your matrix by printing the current Python version
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+        run: pip install flask pymongo bson hashlib
+        run: python backend/web.py

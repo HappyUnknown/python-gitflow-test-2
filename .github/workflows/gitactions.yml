@@ -1,6 +1,5 @@
 # Using multiple Python versions
 # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-# testing grafana now
 
 name: push-to-master
 
